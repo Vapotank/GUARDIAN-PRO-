@@ -2,7 +2,14 @@ import React, { useState } from 'react';
 
 export default function Cleaner() {
   const [log, setLog] = useState('');
-  const clean = async () => setLog((await window.electronAPI.cleanDisk()).stdout);
+
+  const clean = async () => {
+    if (window.electronAPI && window.electronAPI.cleanDisk) {
+      setLog((await window.electronAPI.cleanDisk()).stdout);
+    } else {
+      setLog('Simulation : nettoyage terminé.');
+    }
+  };
 
   return (
     <div className="space-y-4">
